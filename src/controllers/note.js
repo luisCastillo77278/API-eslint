@@ -20,6 +20,14 @@ const notesController = {
       .catch(err => next(err));
     
   },
+  update: (req = request, res, next)=>{
+    const { id } = req.params;
+    const {content, important} = req.body;
+    Notes.findByAndUpdate(id, { content, important }, { new: true})
+      .then( note => res.status(200).json( note ))
+      .catch( err => next(err));
+  }
+  ,
   create: async (req = request, res = response) => {
     const { content } = req.body;
     const note = new Notes({
