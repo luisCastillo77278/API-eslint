@@ -11,13 +11,13 @@ const notesController = {
     const { id } = req.params;
     Notes.findById(id)
       .then((note) => res.status(200).json(note))
-      .catch((err) => next(err));
+      .catch(next);
   },
   delete: (req = request, res, next) => {
     const { id } = req.params;
     Notes.findByIdAndRemove(id)
-      .then( note => res.status(200).json( note ))
-      .catch(err => next(err));
+      .then( note => res.status(204).json( note ))
+      .catch(next);
     
   },
   update: (req = request, res, next)=>{
@@ -27,8 +27,11 @@ const notesController = {
       .then( note => res.status(200).json( note ))
       .catch( err => next(err));
   },
-  create: async (req = request, res = response) => {
+  create: (req = request, res = response) => {
     const { content } = req.body;
+
+    if( !content) return res.status(400).json({ resp: '400'});
+
     const note = new Notes({
       content,
       date: new Date(),

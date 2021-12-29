@@ -17,8 +17,8 @@ app.use(express.json());
 
 app.use('/api', indexRouter);
 
-app.use((error, req, res)=>{
-  console.log(error.name);
+app.use((error, req, res, next)=>{
+  
   if(error.name === 'CastError'){
     res.status(400).json({
       error: 'id is in correct'
@@ -26,7 +26,9 @@ app.use((error, req, res)=>{
   }else{
     res.status(500).end();
   }
-  
+  next();
+
 });
 
-app.listen(PORT, () => console.log(`Servidor corriendo en el puerot ${PORT}`));
+const server = app.listen(PORT, () => console.log(`Servidor corriendo en el puerot ${PORT}`));
+module.exports = {app, server};
