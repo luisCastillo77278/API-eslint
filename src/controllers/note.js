@@ -20,12 +20,12 @@ const notesController = {
       .catch(next);
     
   },
-  update: (req = request, res, next)=>{
+  update: (req = request, res)=>{
     const { id } = req.params;
     const {content, important} = req.body;
-    Notes.findByAndUpdate(id, { content, important }, { new: true})
+    Notes.findByIdAndUpdate(id, { content, important}, {new: true})
       .then( note => res.status(200).json( note ))
-      .catch( err => next(err));
+      .catch( err => console.log(err));
   },
   create: (req = request, res = response) => {
     const { content } = req.body;

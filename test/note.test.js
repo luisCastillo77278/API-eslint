@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { server} = require('../src/index');
+const { server } = require('../src/index');
 const Note = require('../src/models/Note');
 
 const { 

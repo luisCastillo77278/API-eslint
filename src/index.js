@@ -18,7 +18,6 @@ app.use(express.json());
 app.use('/api', indexRouter);
 
 app.use((error, req, res, next)=>{
-  
   if(error.name === 'CastError'){
     res.status(400).json({
       error: 'id is in correct'
