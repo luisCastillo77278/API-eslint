@@ -4,7 +4,9 @@ const User = require('../models/User');
 
 const userController = {
   getUsers: async(req, res = response) => {
-    const users = await User.find();
+    const users = await User.find().populate('notes', {
+      user: 0
+    });
     res.json(users);
   },
   getUser: async(req = request, res= response) =>{
