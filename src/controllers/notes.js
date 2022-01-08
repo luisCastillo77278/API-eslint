@@ -1,6 +1,8 @@
 const { request, response } = require('express');
 const Notes = require('../models/Note');
 const Users = require('../models/User');
+
+
 const notesController = {
   getAll: async(req, res = response) => {
     const notes = await Notes.find().populate('user',{
@@ -29,16 +31,14 @@ const notesController = {
       .catch( err => console.log(err));
   },
   create: async(req = request, res = response) => {
+    const { id } = req;
     const { 
       content,
-      important=false,
-      userId 
+      important=false
     } = req.body;
 
-    const user = await Users.findById( userId );
-
-    if( !content) return res.status(400).json({ resp: '400'});
-
+    // todo crearle un middleware para validar el token
+    const user = await Users.findById( id );
     const note = new Notes({
       content,
       date: new Date(),

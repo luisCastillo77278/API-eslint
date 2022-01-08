@@ -28,6 +28,7 @@ const userController = {
       res.json(newUser);
     }catch(err){
       res.status(400).json(err);
+      // todo pasar el next(err)
     }
   }
 };
