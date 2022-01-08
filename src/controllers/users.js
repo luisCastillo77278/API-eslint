@@ -14,7 +14,7 @@ const userController = {
     const user = await User.findById(id);
     res.json(user);
   },
-  createUser: async(req = request, res = response)=>{
+  createUser: async(req = request, res = response, next)=>{
     const { username, name, password } = req.body;
     const passwordHash = await bcrypt.hash( password, 10);
     const user = new User({
@@ -27,8 +27,7 @@ const userController = {
       const newUser = await user.save();
       res.json(newUser);
     }catch(err){
-      res.status(400).json(err);
-      // todo pasar el next(err)
+      next(err);
     }
   }
 };

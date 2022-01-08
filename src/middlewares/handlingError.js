@@ -1,6 +1,3 @@
-// TokenExpiredError
-// JsonWebTokenError
-// TypeError
 const { response } = require('express');
 const HANDLE_ERROR = {
   TokenExpiredError: (res = response, error)=>{

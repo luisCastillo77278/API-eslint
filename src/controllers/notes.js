@@ -10,25 +10,33 @@ const notesController = {
     });
     res.status(200).json(notes);
   },
-  getByID: (req = request, res = response, next) => {
+  getByID: async (req = request, res = response, next) => {
     const { id } = req.params;
-    Notes.findById(id)
-      .then((note) => res.status(200).json(note))
-      .catch(next);
+    try{
+      const note = await Notes.findById(id);
+      res.status(200).json(note);
+    }catch( err ){
+      next(err);
+    }
   },
-  delete: (req = request, res, next) => {
+  delete: async(req = request, res, next) => {
     const { id } = req.params;
-    Notes.findByIdAndRemove(id)
-      .then( note => res.status(204).json( note ))
-      .catch(next);
-    
+    try{
+      const note = await Notes.findByIdAndRemove(id);
+      res.status(204).json( note );
+    }catch(err){
+      next(err);
+    }
   },
-  update: (req = request, res)=>{
+  update: async (req = request, res = response, next)=>{
     const { id } = req.params;
     const {content, important} = req.body;
-    Notes.findByIdAndUpdate(id, { content, important}, {new: true})
-      .then( note => res.status(200).json( note ))
-      .catch( err => console.log(err));
+    try{
+      const note = await Notes.findByIdAndUpdate(id, { content, important}, {new: true});
+      res.status(200).json( note );
+    }catch(err){
+      next(err);
+    }
   },
   create: async(req = request, res = response) => {
     const { id } = req;
@@ -37,7 +45,6 @@ const notesController = {
       important=false
     } = req.body;
 
-    // todo crearle un middleware para validar el token
     const user = await Users.findById( id );
     const note = new Notes({
       content,

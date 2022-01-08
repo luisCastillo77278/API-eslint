@@ -3,7 +3,6 @@ const notesController = require('../controllers/notes');
 
 const router = Router();
 
-// importanto middleware
 const { validateJWT } = require('../middlewares/validate-jwt');
 
 router.get('/', notesController.getAll);
