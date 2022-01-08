@@ -1,11 +1,17 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 
-const { URL, URL_TEST, NODE_ENV } = process.env;
+const { 
+  URL_PROD, 
+  URL_DEV,
+  URL_TEST, 
+  NODE_ENV } = process.env;
 
 const connection_url = ( NODE_ENV === 'test')
   ? URL_TEST
-  : URL;
+  : (NODE_ENV === 'production') 
+    ? URL_PROD
+    : URL_DEV;
 
 const connectionDB = async() =>{
   try {
